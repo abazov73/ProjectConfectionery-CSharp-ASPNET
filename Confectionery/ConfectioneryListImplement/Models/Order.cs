@@ -48,11 +48,8 @@ namespace ConfectioneryListImplement.Models
             {
                 return;
             }
-            PastryId = model.PastryId;
-            Count = model.Count;
-            Sum = model.Sum;
             Status = model.Status;
-            DateImplement = model.DateImplement;
+            if (model.DateImplement.HasValue) DateImplement = model.DateImplement;
         }
         public OrderViewModel GetViewModel => new()
         {

@@ -27,6 +27,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
         public bool CreateOrder(OrderBindingModel model)
         {
             CheckModel(model);
+            if (model.Status != OrderStatus.Неизвестен) return false;
+            model.Status = OrderStatus.Принят;
             if (_orderStorage.Insert(model) == null)
             {
                 _logger.LogWarning("Insert operation failed");
@@ -37,7 +39,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
 
         public bool DeliveryOrder(OrderBindingModel model)
         {
-            CheckModel(model);
+            CheckModel(model, false);
             var element = _orderStorage.GetElement(new OrderSearchModel
             {
                 Id = model.Id
@@ -52,13 +54,15 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _logger.LogWarning("Status change operation failed");
                 throw new InvalidOperationException("Заказ должен быть переведен в статус готовности перед выдачей!");
             }
-            element.Status = OrderStatus.Выдан;
+            model.Status = OrderStatus.Выдан;
+            model.DateImplement = DateTime.Now;
+            _orderStorage.Update(model);
             return true;
         }
 
         public bool FinishOrder(OrderBindingModel model)
         {
-            CheckModel(model);
+            CheckModel(model, false);
             var element = _orderStorage.GetElement(new OrderSearchModel
             {
                 Id = model.Id
@@ -73,7 +77,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _logger.LogWarning("Status change operation failed");
                 throw new InvalidOperationException("Заказ должен быть переведен в статус выполнения перед готовностью!");
             }
-            element.Status = OrderStatus.Готов;
+            model.Status = OrderStatus.Готов;
+            _orderStorage.Update(model);
             return true;
         }
 
@@ -92,7 +97,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
 
         public bool TakeOrderInWork(OrderBindingModel model)
         {
-            CheckModel(model);
+            CheckModel(model, false);
             var element = _orderStorage.GetElement(new OrderSearchModel
             {
                 Id = model.Id
@@ -107,7 +112,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _logger.LogWarning("Status change operation failed");
                 throw new InvalidOperationException("Заказ должен быть переведен в статус принятого перед его выполнением!");
             }
-            element.Status = OrderStatus.Выполняется;
+            model.Status = OrderStatus.Выполняется;
+            _orderStorage.Update(model);
             return true;
         }
 

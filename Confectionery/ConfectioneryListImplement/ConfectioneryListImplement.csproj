@@ -11,8 +11,4 @@
     <ProjectReference Include="..\ConfectioneryDataModels\ConfectioneryDataModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implements\" />
-  </ItemGroup>
-
 </Project>
