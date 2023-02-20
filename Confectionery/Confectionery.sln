@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Confectionery", "Confection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryDataModels", "ConfectioneryDataModels\ConfectioneryDataModels.csproj", "{22A053DC-3DC2-4375-9563-BF647A1092A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryContracts", "ConfectioneryContracts\ConfectioneryContracts.csproj", "{6C4950D1-D788-4D5A-8C15-0A376274F2DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryContracts", "ConfectioneryContracts\ConfectioneryContracts.csproj", "{6C4950D1-D788-4D5A-8C15-0A376274F2DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryBusinessLogic", "ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj", "{30F4AE5A-2C90-4C7F-BBE9-2FA56BE26C63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryBusinessLogic", "ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj", "{30F4AE5A-2C90-4C7F-BBE9-2FA56BE26C63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{85992074-656D-4F79-AB23-60DE4F9ABF30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{85992074-656D-4F79-AB23-60DE4F9ABF30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryFileImplement", "ConfectioneryFileImplements\ConfectioneryFileImplement.csproj", "{48A8592F-EF58-4FC4-9C9E-B401836FF21E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{85992074-656D-4F79-AB23-60DE4F9ABF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85992074-656D-4F79-AB23-60DE4F9ABF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85992074-656D-4F79-AB23-60DE4F9ABF30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
