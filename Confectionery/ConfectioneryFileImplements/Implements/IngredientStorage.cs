@@ -62,14 +62,14 @@ namespace ConfectioneryFileImplement.Implements
         }
         public IngredientViewModel? Update(IngredientBindingModel model)
         {
-            var component = source.Ingredients.FirstOrDefault(x => x.Id == model.Id);
-            if (component == null)
+            var ingredient = source.Ingredients.FirstOrDefault(x => x.Id == model.Id);
+            if (ingredient == null)
             {
                 return null;
             }
-            component.Update(model);
+            ingredient.Update(model);
             source.SaveIngredients();
-            return component.GetViewModel;
+            return ingredient.GetViewModel;
         }
         public IngredientViewModel? Delete(IngredientBindingModel model)
         {
