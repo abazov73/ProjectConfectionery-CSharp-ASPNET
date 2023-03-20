@@ -1,4 +1,6 @@
 using ConfectioneryBusinessLogic.BusinessLogics;
+using ConfectioneryBusinessLogic.OfficePackage.Implements;
+using ConfectioneryBusinessLogic.OfficePackage;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryDataBaseImplement.Implements;
@@ -41,6 +43,10 @@ namespace Confectionery
             services.AddTransient<IIngredientLogic, IngredientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IPastryLogic, PastryLogic>();
+            services.AddTransient<IReportLogic, ReportLogic>();
+            services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
+            services.AddTransient<AbstractSaveToWord, SaveToWord>();
+            services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
             services.AddTransient<FormMain>();
             services.AddTransient<FormIngredient>();
             services.AddTransient<FormIngredients>();
@@ -48,6 +54,8 @@ namespace Confectionery
             services.AddTransient<FormPastry>();
             services.AddTransient<FormPastryIngredient>();
             services.AddTransient<FormPastries>();
+            services.AddTransient<FormReportPastryIngredients>();
+            services.AddTransient<FormReportOrders>();
         }
     }
 }

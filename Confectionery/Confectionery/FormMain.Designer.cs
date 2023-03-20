@@ -32,6 +32,10 @@
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ингредиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изделияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IngredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IngredientPastriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonTakeOrderInWork = new System.Windows.Forms.Button();
@@ -46,7 +50,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.справочникиToolStripMenuItem});
+            this.справочникиToolStripMenuItem,
+            this.отчётыToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1238, 28);
@@ -75,6 +80,37 @@
             this.изделияToolStripMenuItem.Size = new System.Drawing.Size(251, 26);
             this.изделияToolStripMenuItem.Text = "Кондитерские изделия";
             this.изделияToolStripMenuItem.Click += new System.EventHandler(this.изделияToolStripMenuItem_Click);
+            // 
+            // отчётыToolStripMenuItem
+            // 
+            this.отчётыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IngredientsToolStripMenuItem,
+            this.IngredientPastriesToolStripMenuItem,
+            this.OrdersToolStripMenuItem});
+            this.отчётыToolStripMenuItem.Name = "отчётыToolStripMenuItem";
+            this.отчётыToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.отчётыToolStripMenuItem.Text = "Отчёты";
+            // 
+            // IngredientsToolStripMenuItem
+            // 
+            this.IngredientsToolStripMenuItem.Name = "IngredientsToolStripMenuItem";
+            this.IngredientsToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            this.IngredientsToolStripMenuItem.Text = "Список изделий";
+            this.IngredientsToolStripMenuItem.Click += new System.EventHandler(this.IngredientsToolStripMenuItem_Click);
+            // 
+            // IngredientPastriesToolStripMenuItem
+            // 
+            this.IngredientPastriesToolStripMenuItem.Name = "IngredientPastriesToolStripMenuItem";
+            this.IngredientPastriesToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            this.IngredientPastriesToolStripMenuItem.Text = "Ингрединеты по изделиям";
+            this.IngredientPastriesToolStripMenuItem.Click += new System.EventHandler(this.IngredientPastriesToolStripMenuItem_Click);
+            // 
+            // OrdersToolStripMenuItem
+            // 
+            this.OrdersToolStripMenuItem.Name = "OrdersToolStripMenuItem";
+            this.OrdersToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            this.OrdersToolStripMenuItem.Text = "Список заказов";
+            this.OrdersToolStripMenuItem.Click += new System.EventHandler(this.OrdersToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -175,5 +211,9 @@
         private Button buttonOrderReady;
         private Button buttonIssuedOrder;
         private Button buttonRef;
+        private ToolStripMenuItem отчётыToolStripMenuItem;
+        private ToolStripMenuItem IngredientsToolStripMenuItem;
+        private ToolStripMenuItem IngredientPastriesToolStripMenuItem;
+        private ToolStripMenuItem OrdersToolStripMenuItem;
     }
 }

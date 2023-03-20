@@ -1,4 +1,5 @@
-﻿using ConfectioneryContracts.BindingModels;
+﻿using ConfectioneryBusinessLogic.BusinessLogics;
+using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,12 +18,14 @@ namespace Confectionery
     {
         private readonly ILogger _logger;
         private readonly IOrderLogic _orderLogic;
+        private readonly IReportLogic _reportLogic;
 
-        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic)
+        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic)
         {
             InitializeComponent();
             _logger = logger;
             _orderLogic = orderLogic;
+            _reportLogic = reportLogic;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -151,6 +154,34 @@ namespace Confectionery
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void IngredientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _reportLogic.SavePastrysToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void IngredientPastriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportPastryIngredients));
+            if (service is FormReportPastryIngredients form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void OrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportOrders));
+            if (service is FormReportOrders form)
+            {
+                form.ShowDialog();
+            }
         }
     }
 }

@@ -22,15 +22,26 @@ namespace ConfectioneryDataBaseImplement.Implements
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue)
             {
                 return new();
             }
-            using var context = new ConfectioneryDatabase();
-            return context.Orders
-            .Where(x => x.Id == model.Id)
-            .Select(x => AccessPastryStorage(x.GetViewModel, context))
-            .ToList();
+            if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
+            {
+                using var context = new ConfectioneryDatabase();
+                return context.Orders
+                .Where(x => x.Id == model.Id)
+                .Select(x => AccessPastryStorage(x.GetViewModel, context))
+                .ToList();
+            }
+            else
+            {
+                using var context = new ConfectioneryDatabase();
+                return context.Orders
+                .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
+                .Select(x => AccessPastryStorage(x.GetViewModel, context))
+                .ToList();
+            }
         }
         public OrderViewModel? GetElement(OrderSearchModel model)
         {

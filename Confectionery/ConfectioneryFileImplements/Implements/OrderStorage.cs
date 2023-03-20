@@ -27,14 +27,24 @@ namespace ConfectioneryFileImplement.Implements
 
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue || !model.DateFrom.HasValue || !model.DateTo.HasValue)
             {
                 return new();
             }
-            return source.Orders
-            .Where(x => x.Id == model.Id)
-            .Select(x => AccessPastryStorage(x.GetViewModel))
-            .ToList();
+            if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
+            {
+                return source.Orders
+                .Where(x => x.Id == model.Id)
+                .Select(x => AccessPastryStorage(x.GetViewModel))
+                .ToList();
+            }
+            else
+            {
+                return source.Orders
+                .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
+                .Select(x => AccessPastryStorage(x.GetViewModel))
+                .ToList();
+            }
         }
 
         public OrderViewModel? GetElement(OrderSearchModel model)

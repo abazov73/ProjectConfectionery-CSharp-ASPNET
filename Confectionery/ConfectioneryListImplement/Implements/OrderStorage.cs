@@ -32,15 +32,28 @@ namespace ConfectioneryListImplement.Implements
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
             var result = new List<OrderViewModel>();
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue)
             {
                 return result;
             }
-            foreach (var order in _source.Orders)
+            if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
             {
-                if (order.Id == model.Id)
+                foreach (var order in _source.Orders)
                 {
-                    result.Add(AccessPastryStorage(order.GetViewModel));
+                    if (order.Id == model.Id)
+                    {
+                        result.Add(AccessPastryStorage(order.GetViewModel));
+                    }
+                }
+            }
+            else
+            {
+                foreach (var order in _source.Orders)
+                {
+                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    {
+                        result.Add(AccessPastryStorage(order.GetViewModel));
+                    }
                 }
             }
             return result;

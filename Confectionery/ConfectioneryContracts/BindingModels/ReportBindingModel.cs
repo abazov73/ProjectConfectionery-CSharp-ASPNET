@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConfectioneryContracts.SearchModels
+namespace ConfectioneryContracts.BindingModels
 {
-    public class OrderSearchModel
+    public class ReportBindingModel
     {
-        public int? Id { get; set; }
+        public string FileName { get; set; } = string.Empty;
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
     }
