@@ -14,11 +14,13 @@ namespace ConfectioneryListImplement
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Pastry> Pastries { get; set; }
+        public List<Shop> Shops { get; set; }
         private DataListSingleton()
         {
             Ingredients = new List<Ingredient>();
             Orders = new List<Order>();
             Pastries = new List<Pastry>();
+            Shops = new List<Shop>();
         }
         public static DataListSingleton GetInstance()
         {

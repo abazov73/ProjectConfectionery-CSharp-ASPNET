@@ -38,9 +38,11 @@ namespace Confectionery
             services.AddTransient<IIngredientStorage, IngredientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IPastryStorage, PastryStorage>();
+            services.AddTransient<IShopStorage, ShopStorage>();
             services.AddTransient<IIngredientLogic, IngredientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IPastryLogic, PastryLogic>();
+            services.AddTransient<IShopLogic, ShopLogic>();
             services.AddTransient<FormMain>();
             services.AddTransient<FormIngredient>();
             services.AddTransient<FormIngredients>();
@@ -48,6 +50,9 @@ namespace Confectionery
             services.AddTransient<FormPastry>();
             services.AddTransient<FormPastryIngredient>();
             services.AddTransient<FormPastries>();
+            services.AddTransient<FormShop>();
+            services.AddTransient<FormShops>();
+            services.AddTransient<FormDelivery>();
         }
     }
 }

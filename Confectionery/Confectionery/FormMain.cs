@@ -152,5 +152,23 @@ namespace Confectionery
         {
             LoadData();
         }
+
+        private void магазиныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormShops));
+            if (service is FormShops form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void пополнениеМагазинаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormDelivery));
+            if (service is FormDelivery form)
+            {
+                form.ShowDialog();
+            }
+        }
     }
 }
