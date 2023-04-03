@@ -22,8 +22,10 @@ namespace Confectionery
         private readonly ILogger _logger;
         private readonly IPastryLogic _logicP;
         private readonly IOrderLogic _logicO;
+        private readonly IClientLogic _logicC;
 
         private List<PastryViewModel>? _list;
+        private List<ClientViewModel>? _listC;
         public int Id { get { return Convert.ToInt32(comboBoxPastry.SelectedValue); } set { comboBoxPastry.SelectedValue = value; } }
         public IPastryModel? PastryModel
         {
@@ -46,12 +48,13 @@ namespace Confectionery
 
         public int Count { get { return Convert.ToInt32(textBoxCount.Text); } set { textBoxCount.Text = value.ToString(); } }
 
-        public FormCreateOrder(ILogger<FormCreateOrder> logger, IPastryLogic logicP, IOrderLogic logicO)
+        public FormCreateOrder(ILogger<FormCreateOrder> logger, IPastryLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
             _logger = logger;
             _logicP = logicP;
             _logicO = logicO;
+            _logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
@@ -64,6 +67,14 @@ namespace Confectionery
                 comboBoxPastry.ValueMember = "Id";
                 comboBoxPastry.DataSource = _list;
                 comboBoxPastry.SelectedItem = null;
+            }
+            _listC = _logicC.ReadList(null);
+            if (_listC != null)
+            {
+                comboBoxClient.DisplayMember = "ClientFIO";
+                comboBoxClient.ValueMember = "Id";
+                comboBoxClient.DataSource = _listC;
+                comboBoxClient.SelectedItem = null;
             }
         }
 
@@ -109,12 +120,18 @@ namespace Confectionery
                 MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             _logger.LogInformation("Создание заказа");
             try
             {
                 var operationResult = _logicO.CreateOrder(new OrderBindingModel
                 {
                     PastryId = Convert.ToInt32(comboBoxPastry.SelectedValue),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDouble(textBoxSum.Text)
                 });

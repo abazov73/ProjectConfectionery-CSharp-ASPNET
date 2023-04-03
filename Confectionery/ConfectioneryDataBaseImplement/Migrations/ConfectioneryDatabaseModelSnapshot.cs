@@ -22,6 +22,31 @@ namespace ConfectioneryDataBaseImplement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ConfectioneryDataBaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
             modelBuilder.Entity("ConfectioneryDataBaseImplement.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -50,6 +75,9 @@ namespace ConfectioneryDataBaseImplement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -69,6 +97,8 @@ namespace ConfectioneryDataBaseImplement.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("PastryId");
 
@@ -123,11 +153,19 @@ namespace ConfectioneryDataBaseImplement.Migrations
 
             modelBuilder.Entity("ConfectioneryDataBaseImplement.Models.Order", b =>
                 {
+                    b.HasOne("ConfectioneryDataBaseImplement.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ConfectioneryDataBaseImplement.Models.Pastry", null)
                         .WithMany("Orders")
                         .HasForeignKey("PastryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("ConfectioneryDataBaseImplement.Models.PastryIngredient", b =>

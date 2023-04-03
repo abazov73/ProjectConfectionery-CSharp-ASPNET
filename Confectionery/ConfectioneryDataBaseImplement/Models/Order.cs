@@ -17,6 +17,9 @@ namespace ConfectioneryDataBaseImplement.Models
         [Required]
         public int PastryId { get; private set; }
         [Required]
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; } = new();
+        [Required]
         public int Count { get; private set; }
         [Required]
         public double Sum { get; private set; }
@@ -25,7 +28,7 @@ namespace ConfectioneryDataBaseImplement.Models
         [Required]
         public DateTime DateCreate { get; private set; }
         public DateTime? DateImplement { get; private set; }
-        public static Order? Create(OrderBindingModel? model)
+        public static Order? Create(ConfectioneryDatabase context, OrderBindingModel? model)
         {
             if (model == null)
             {
@@ -35,6 +38,8 @@ namespace ConfectioneryDataBaseImplement.Models
             {
                 Id = model.Id,
                 PastryId = model.PastryId,
+                ClientId = model.ClientId,
+                Client = context.Clients.First(x => x.Id == model.ClientId),
                 Count = model.Count,
                 Sum = model.Sum,
                 Status = model.Status,
@@ -55,6 +60,8 @@ namespace ConfectioneryDataBaseImplement.Models
         {
             Id = Id,
             PastryId = PastryId,
+            ClientId = ClientId,
+            ClientFIO = Client.ClientFIO,
             Count = Count,
             Sum = Sum,
             Status = Status,

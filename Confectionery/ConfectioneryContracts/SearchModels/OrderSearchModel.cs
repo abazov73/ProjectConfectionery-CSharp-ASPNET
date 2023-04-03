@@ -11,5 +11,6 @@ namespace ConfectioneryContracts.SearchModels
         public int? Id { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
+        public int? ClientId { get; set; }
     }
 }

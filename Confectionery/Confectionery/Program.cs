@@ -40,10 +40,12 @@ namespace Confectionery
             services.AddTransient<IIngredientStorage, IngredientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IPastryStorage, PastryStorage>();
+            services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IIngredientLogic, IngredientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IPastryLogic, PastryLogic>();
             services.AddTransient<IReportLogic, ReportLogic>();
+            services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
             services.AddTransient<AbstractSaveToWord, SaveToWord>();
             services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
@@ -56,6 +58,7 @@ namespace Confectionery
             services.AddTransient<FormPastries>();
             services.AddTransient<FormReportPastryIngredients>();
             services.AddTransient<FormReportOrders>();
+            services.AddTransient<FormClients>();
         }
     }
 }

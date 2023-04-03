@@ -3,6 +3,7 @@ using ConfectioneryContracts.SearchModels;
 using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.ViewModels;
 using ConfectioneryDataBaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +17,28 @@ namespace ConfectioneryDataBaseImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             using var context = new ConfectioneryDatabase();
-            return context.Orders
+            return context.Orders.Include(x => x.Client)
             .Select(x => AccessPastryStorage(x.GetViewModel, context))
             .ToList();
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue && !model.ClientId.HasValue)
             {
                 return new();
             }
-            if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
+            if (model.ClientId.HasValue)
             {
                 using var context = new ConfectioneryDatabase();
-                return context.Orders
+                return context.Orders.Include(x => x.Client)
+                .Where(x => x.ClientId == model.ClientId)
+                .Select(x => AccessPastryStorage(x.GetViewModel, context))
+                .ToList();
+            }
+            else if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
+            {
+                using var context = new ConfectioneryDatabase();
+                return context.Orders.Include(x => x.Client)
                 .Where(x => x.Id == model.Id)
                 .Select(x => AccessPastryStorage(x.GetViewModel, context))
                 .ToList();
@@ -37,7 +46,7 @@ namespace ConfectioneryDataBaseImplement.Implements
             else
             {
                 using var context = new ConfectioneryDatabase();
-                return context.Orders
+                return context.Orders.Include(x => x.Client)
                 .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
                 .Select(x => AccessPastryStorage(x.GetViewModel, context))
                 .ToList();
@@ -50,18 +59,18 @@ namespace ConfectioneryDataBaseImplement.Implements
                 return new();
             }
             using var context = new ConfectioneryDatabase();
-            return AccessPastryStorage(context.Orders
+            return AccessPastryStorage(context.Orders.Include(x => x.Client)
             .FirstOrDefault(x => model.Id.HasValue && x.Id == model.Id)
             ?.GetViewModel, context);
         }
         public OrderViewModel? Insert(OrderBindingModel model)
         {
-            var newOrder = Order.Create(model);
+            using var context = new ConfectioneryDatabase();
+            var newOrder = Order.Create(context, model);
             if (newOrder == null)
             {
                 return null;
-            }
-            using var context = new ConfectioneryDatabase();
+            };
             context.Orders.Add(newOrder);
             context.SaveChanges();
             return AccessPastryStorage(newOrder.GetViewModel, context);

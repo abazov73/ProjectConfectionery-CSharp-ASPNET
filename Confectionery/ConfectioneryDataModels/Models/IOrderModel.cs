@@ -10,6 +10,7 @@ namespace ConfectioneryDataModels.Models
     public interface IOrderModel : IId
     {
         int PastryId { get; }
+        int ClientId { get; }
         int Count { get; }
         double Sum { get; }
         OrderStatus Status { get; }

@@ -16,6 +16,7 @@ namespace ConfectioneryListImplement.Models
     {
         public int Id {get; private set;}
         public int PastryId { get; private set; }
+        public int ClientId { get; private set; }
         public int Count { get; private set; }
         public double Sum { get; private set; }
 

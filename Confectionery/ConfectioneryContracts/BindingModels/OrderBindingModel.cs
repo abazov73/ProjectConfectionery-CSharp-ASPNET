@@ -12,6 +12,7 @@ namespace ConfectioneryContracts.BindingModels
     {
         public int Id { get; set; }
         public int PastryId { get; set; }
+        public int ClientId { get; set; }
         public int Count { get; set; }
         public double Sum { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Неизвестен;

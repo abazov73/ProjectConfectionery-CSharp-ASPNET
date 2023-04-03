@@ -16,6 +16,9 @@ namespace ConfectioneryContracts.ViewModels
         public int PastryId { get; set; }
         [DisplayName("Кондитерское изделие")]
         public string PastryName { get; set; } = string.Empty;
+        public int ClientId { get; set; }
+        [DisplayName("ФИО клиента")]
+        public string ClientFIO { get; set; } = string.Empty;
         [DisplayName("Количество")]
         public int Count { get; set; }
         [DisplayName("Сумма")]

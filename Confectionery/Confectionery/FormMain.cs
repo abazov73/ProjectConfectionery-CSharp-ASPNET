@@ -44,6 +44,8 @@ namespace Confectionery
                     dataGridView.DataSource = list;
                     dataGridView.Columns["PastryId"].Visible = false;
                     dataGridView.Columns["PastryName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns["ClientFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns["ClientId"].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -179,6 +181,15 @@ namespace Confectionery
         {
             var service = Program.ServiceProvider?.GetService(typeof(FormReportOrders));
             if (service is FormReportOrders form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormClients));
+            if (service is FormClients form)
             {
                 form.ShowDialog();
             }
