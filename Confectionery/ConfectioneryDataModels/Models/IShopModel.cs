@@ -10,6 +10,7 @@ namespace ConfectioneryDataModels.Models
     {
         string ShopName { get; }
         string ShopAdress { get; }
+        int PastryCapacity { get; }
         DateTime OpeningDate { get; }
         Dictionary<int, (IPastryModel, int)> ShopPastries { get; }
     }

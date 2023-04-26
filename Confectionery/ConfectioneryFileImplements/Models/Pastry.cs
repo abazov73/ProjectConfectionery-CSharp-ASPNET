@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
-    public class Pastry
+    public class Pastry : IPastryModel
     {
         public int Id { get; private set; }
         public string PastryName { get; private set; } = string.Empty;

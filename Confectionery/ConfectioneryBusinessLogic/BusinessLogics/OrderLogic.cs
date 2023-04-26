@@ -17,11 +17,13 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
+        private readonly IShopStorage _shopStorage;
 
-        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
+        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage, IShopStorage shopStorage)
         {
             _logger = logger;
             _orderStorage = orderStorage;
+            _shopStorage = shopStorage;
         }
 
         public bool CreateOrder(OrderBindingModel model)
@@ -54,6 +56,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _logger.LogWarning("Status change operation failed");
                 throw new InvalidOperationException("Заказ должен быть переведен в статус готовности перед выдачей!");
             }
+
             model.Status = OrderStatus.Выдан;
             model.DateImplement = DateTime.Now;
             _orderStorage.Update(model);
@@ -77,6 +80,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _logger.LogWarning("Status change operation failed");
                 throw new InvalidOperationException("Заказ должен быть переведен в статус выполнения перед готовностью!");
             }
+            bool hasFreeSpace = _shopStorage.Supply(element.PastryId, element.Count);
+            if (!hasFreeSpace) throw new InvalidOperationException("В магазинах недостаточно места, чтобы вместить данный заказ!");
             model.Status = OrderStatus.Готов;
             _orderStorage.Update(model);
             return true;

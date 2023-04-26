@@ -1,6 +1,7 @@
 ﻿using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.SearchModels;
 using ConfectioneryContracts.ViewModels;
+using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace ConfectioneryContracts.StoragesContracts
         ShopViewModel? Insert(ShopBindingModel model);
         ShopViewModel? Update(ShopBindingModel model);
         ShopViewModel? Delete(ShopBindingModel model);
+        bool Supply(int pastryId, int count);
+        bool Sell(int pastryId, int count);
     }
 }

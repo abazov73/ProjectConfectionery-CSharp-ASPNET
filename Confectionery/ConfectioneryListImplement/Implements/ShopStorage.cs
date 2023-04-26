@@ -2,6 +2,7 @@
 using ConfectioneryContracts.SearchModels;
 using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.ViewModels;
+using ConfectioneryDataModels.Models;
 using ConfectioneryListImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,16 @@ namespace ConfectioneryListImplement.Implements
                 }
             }
             return null;
+        }
+
+        public bool Supply(int pastryId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Sell(int pastryId, int count)
+        {
+            throw new NotImplementedException();
         }
     }
 }

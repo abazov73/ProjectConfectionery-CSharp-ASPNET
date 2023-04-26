@@ -43,6 +43,11 @@ namespace Confectionery
                 MessageBox.Show("Заполните адрес", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (string.IsNullOrEmpty(textBoxCapacity.Text))
+            {
+                MessageBox.Show("Заполните вместимость", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             _logger.LogInformation("Сохранение магазина");
             try
             {
@@ -52,6 +57,7 @@ namespace Confectionery
                     ShopName = textBoxName.Text,
                     ShopAdress = textBoxAdress.Text,
                     OpeningDate = openingDateTimePicker.Value.Date,
+                    PastryCapacity = Convert.ToInt32(textBoxCapacity.Text),
                     ShopPastries = _shopPastries
                 };
                 var operationResult = _id.HasValue ? _logic.Update(model) : _logic.Create(model);
@@ -83,6 +89,7 @@ namespace Confectionery
                         textBoxName.Text = view.ShopName;
                         textBoxAdress.Text = view.ShopAdress;
                         openingDateTimePicker.Value = view.OpeningDate;
+                        textBoxCapacity.Text = view.PastryCapacity.ToString();
                         _shopPastries = view.ShopPastries;
                         foreach (var pc in view.ShopPastries)
                         {

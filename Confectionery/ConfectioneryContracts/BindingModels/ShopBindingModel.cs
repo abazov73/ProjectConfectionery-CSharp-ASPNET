@@ -12,6 +12,7 @@ namespace ConfectioneryContracts.BindingModels
         public int Id { get; set; }
         public string ShopName { get; set; } = string.Empty;
         public string ShopAdress { get; set; } = string.Empty;
+        public int PastryCapacity { get; set; }
         public DateTime OpeningDate { get; set; }
         public Dictionary<int, (IPastryModel, int)> ShopPastries
         {

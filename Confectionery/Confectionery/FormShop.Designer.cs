@@ -40,6 +40,8 @@
             this.PastryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PastryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBoxCapacity = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,7 +79,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(376, 276);
+            this.buttonCancel.Location = new System.Drawing.Point(376, 313);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(94, 29);
             this.buttonCancel.TabIndex = 7;
@@ -87,7 +89,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(276, 276);
+            this.buttonSave.Location = new System.Drawing.Point(276, 313);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(94, 29);
             this.buttonSave.TabIndex = 6;
@@ -120,7 +122,7 @@
             this.PastryId,
             this.PastryName,
             this.Count});
-            this.dataGridView.Location = new System.Drawing.Point(120, 105);
+            this.dataGridView.Location = new System.Drawing.Point(120, 142);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
@@ -155,11 +157,29 @@
             this.Count.ReadOnly = true;
             this.Count.Width = 125;
             // 
+            // textBoxCapacity
+            // 
+            this.textBoxCapacity.Location = new System.Drawing.Point(120, 105);
+            this.textBoxCapacity.Name = "textBoxCapacity";
+            this.textBoxCapacity.Size = new System.Drawing.Size(350, 27);
+            this.textBoxCapacity.TabIndex = 16;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 108);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(103, 20);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Вместимость:";
+            // 
             // FormShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 317);
+            this.ClientSize = new System.Drawing.Size(478, 354);
+            this.Controls.Add(this.textBoxCapacity);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.openingDateTimePicker);
@@ -192,5 +212,7 @@
         private DataGridViewTextBoxColumn PastryId;
         private DataGridViewTextBoxColumn PastryName;
         private DataGridViewTextBoxColumn Count;
+        private TextBox textBoxCapacity;
+        private Label label3;
     }
 }

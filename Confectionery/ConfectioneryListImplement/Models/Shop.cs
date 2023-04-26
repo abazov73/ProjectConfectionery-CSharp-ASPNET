@@ -15,6 +15,7 @@ namespace ConfectioneryListImplement.Models
         public int Id { get; private set; }
         public string ShopName { get; private set; } = string.Empty;
         public string ShopAdress { get; private set; } = string.Empty;
+        public int PastryCapacity { get; private set; }
         public DateTime OpeningDate { get; private set; }
         public Dictionary<int, (IPastryModel, int)> ShopPastries { get; private set; } = new Dictionary<int, (IPastryModel, int)>();
         public static Shop? Create(ShopBindingModel? model)
@@ -29,7 +30,8 @@ namespace ConfectioneryListImplement.Models
                 ShopName = model.ShopName,
                 ShopAdress = model.ShopAdress,
                 OpeningDate = model.OpeningDate,
-                ShopPastries = model.ShopPastries
+                ShopPastries = model.ShopPastries,
+                PastryCapacity = model.PastryCapacity
             };
         }
         public void Update(ShopBindingModel? model)
@@ -42,6 +44,7 @@ namespace ConfectioneryListImplement.Models
             ShopAdress = model.ShopAdress;
             OpeningDate = model.OpeningDate;
             ShopPastries = model.ShopPastries;
+            PastryCapacity = model.PastryCapacity;
         }
         public ShopViewModel GetViewModel => new()
         {
@@ -49,7 +52,8 @@ namespace ConfectioneryListImplement.Models
             ShopName = ShopName,
             ShopAdress = ShopAdress,
             ShopPastries = ShopPastries,
-            OpeningDate = OpeningDate
+            OpeningDate = OpeningDate,
+            PastryCapacity = PastryCapacity,
         };
     }
 }

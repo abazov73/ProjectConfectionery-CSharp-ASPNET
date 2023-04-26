@@ -17,6 +17,8 @@ namespace ConfectioneryContracts.ViewModels
         public string ShopAdress { get; set; } = String.Empty;
         [DisplayName("Дата открытия")]
         public DateTime OpeningDate { get; set; }
+        [DisplayName("Макс. вместимость")]
+        public int PastryCapacity { get; set; }
         public Dictionary<int, (IPastryModel, int)> ShopPastries
         {
             get;

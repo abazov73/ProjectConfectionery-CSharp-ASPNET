@@ -106,6 +106,10 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             {
                 throw new ArgumentNullException("Нет адресса иагазина", nameof(model.ShopAdress));
             }
+            if (model.PastryCapacity <= 0)
+            {
+                throw new InvalidOperationException("Вместимоcть должна быть больше 0");
+            }
             _logger.LogInformation("Shop. ShopName:{ShopName}. Id:{Id}", model.ShopName, model.Id);
             var element = _shopStorage.GetElement(new ShopSearchModel
             {
@@ -152,7 +156,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 ShopName = element.ShopName,
                 ShopAdress = element.ShopAdress,
                 OpeningDate = element.OpeningDate,
-                ShopPastries = element.ShopPastries
+                ShopPastries = element.ShopPastries,
+                PastryCapacity = element.PastryCapacity
             });
             return true;
         }
