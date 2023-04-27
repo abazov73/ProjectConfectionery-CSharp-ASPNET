@@ -16,6 +16,7 @@ namespace ConfectioneryFileImplement.Models
         public int Id { get; private set; }
         public int PastryId { get; private set; }
         public int ClientId { get; private set; }
+        public int? ImplementerId { get; private set; }
         public int Count { get; private set; }
         public double Sum { get; private set; }
 
@@ -39,7 +40,8 @@ namespace ConfectioneryFileImplement.Models
                 Sum = model.Sum,
                 Status = model.Status,
                 DateCreate = model.DateCreate,
-                DateImplement = model.DateImplement
+                DateImplement = model.DateImplement,
+                ImplementerId = model.ImplementerId
             };
         }
 
@@ -57,7 +59,8 @@ namespace ConfectioneryFileImplement.Models
                 Sum = Convert.ToDouble(element.Element("Sum")!.Value),
                 Status = (OrderStatus) Convert.ToInt32(element.Element("Status")!.Value),
                 DateCreate = Convert.ToDateTime(element.Element("DateCreate")!.Value),
-                DateImplement = Convert.ToDateTime(String.IsNullOrEmpty(element.Element("DateImplement")!.Value) ? null : element.Element("DateImplement")!.Value)
+                DateImplement = Convert.ToDateTime(String.IsNullOrEmpty(element.Element("DateImplement")!.Value) ? null : element.Element("DateImplement")!.Value),
+                ImplementerId = Convert.ToInt32(element.Element("ImplementerId")!.Value),
             };
         }
 
@@ -68,6 +71,7 @@ namespace ConfectioneryFileImplement.Models
                 return;
             }
             Status = model.Status;
+            ImplementerId = model.ImplementerId;
             if (model.DateImplement.HasValue) DateImplement = model.DateImplement;
         }
         public OrderViewModel GetViewModel => new()
@@ -78,7 +82,8 @@ namespace ConfectioneryFileImplement.Models
             Sum = Sum,
             Status = Status,
             DateCreate = DateCreate,
-            DateImplement = DateImplement
+            DateImplement = DateImplement,
+            ImplementerId = ImplementerId
         };
         public XElement GetXElement => new("Order",
         new XAttribute("Id", Id),
@@ -87,6 +92,7 @@ namespace ConfectioneryFileImplement.Models
         new XElement("Sum", Sum.ToString()),
         new XElement("Status", ((int)Status).ToString()),
         new XElement("DateCreate", DateCreate.ToString()),
+        new XElement("ImplementerId", ImplementerId.ToString()),
         new XElement("DateImplement", DateImplement.ToString()));
     }
 }

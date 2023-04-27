@@ -17,6 +17,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
+        static readonly object _lock = new object();
 
         public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
         {
@@ -55,7 +56,6 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Заказ должен быть переведен в статус готовности перед выдачей!");
             }
             model.Status = OrderStatus.Выдан;
-            model.DateImplement = DateTime.Now;
             _orderStorage.Update(model);
             return true;
         }
@@ -78,6 +78,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Заказ должен быть переведен в статус выполнения перед готовностью!");
             }
             model.Status = OrderStatus.Готов;
+            model.DateImplement = DateTime.Now;
             _orderStorage.Update(model);
             return true;
         }
@@ -95,26 +96,46 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             return list;
         }
 
-        public bool TakeOrderInWork(OrderBindingModel model)
+        public OrderViewModel? ReadElement(OrderSearchModel? model)
         {
-            CheckModel(model, false);
-            var element = _orderStorage.GetElement(new OrderSearchModel
+            if (model == null)
             {
-                Id = model.Id
-            });
+                throw new ArgumentNullException(nameof(model));
+            }
+            _logger.LogInformation("ReadElement. ImplementerId:{ImplementerId}. OrderStatus:{OrderStatus}. Id:{Id}", model.ImplementerId, model.OrderStatus, model.Id);
+            var element = _orderStorage.GetElement(model);
             if (element == null)
             {
-                _logger.LogWarning("Read operation failed");
-                return false;
+                _logger.LogWarning("ReadElement element not found");
+                return null;
             }
-            if (element.Status != OrderStatus.Принят)
+            _logger.LogInformation("ReadElement find. Id:{Id}", element.Id);
+            return element;
+        }
+
+        public bool TakeOrderInWork(OrderBindingModel model)
+        {
+            lock (_lock)
             {
-                _logger.LogWarning("Status change operation failed");
-                throw new InvalidOperationException("Заказ должен быть переведен в статус принятого перед его выполнением!");
+                CheckModel(model, false);
+                var element = _orderStorage.GetElement(new OrderSearchModel
+                {
+                    Id = model.Id
+                });
+                if (element == null)
+                {
+                    _logger.LogWarning("Read operation failed");
+                    return false;
+                }
+                if (element.Status != OrderStatus.Принят)
+                {
+                    _logger.LogWarning("Status change operation failed");
+                    throw new InvalidOperationException("Заказ должен быть переведен в статус принятого перед его выполнением!");
+                }
+                model.Status = OrderStatus.Выполняется;
+                _orderStorage.Update(model);
+                return true;
             }
-            model.Status = OrderStatus.Выполняется;
-            _orderStorage.Update(model);
-            return true;
         }
 
         private void CheckModel(OrderBindingModel model, bool withParams = true)

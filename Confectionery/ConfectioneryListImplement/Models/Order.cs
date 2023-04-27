@@ -17,6 +17,7 @@ namespace ConfectioneryListImplement.Models
         public int Id {get; private set;}
         public int PastryId { get; private set; }
         public int ClientId { get; private set; }
+        public int? ImplementerId { get; private set; }
         public int Count { get; private set; }
         public double Sum { get; private set; }
 
@@ -40,7 +41,7 @@ namespace ConfectioneryListImplement.Models
                 Sum = model.Sum,
                 Status = model.Status,
                 DateCreate = model.DateCreate,
-                DateImplement = model.DateImplement
+                DateImplement = model.DateImplement,
             };
         }
         public void Update(OrderBindingModel? model)
@@ -50,6 +51,7 @@ namespace ConfectioneryListImplement.Models
                 return;
             }
             Status = model.Status;
+            ImplementerId = model.ImplementerId;
             if (model.DateImplement.HasValue) DateImplement = model.DateImplement;
         }
         public OrderViewModel GetViewModel => new()

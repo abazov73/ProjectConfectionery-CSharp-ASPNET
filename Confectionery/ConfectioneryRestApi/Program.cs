@@ -11,10 +11,12 @@ builder.Logging.AddLog4Net("log4net.config");
 builder.Services.AddTransient<IClientStorage, ClientStorage>();
 builder.Services.AddTransient<IOrderStorage, OrderStorage>();
 builder.Services.AddTransient<IPastryStorage, PastryStorage>();
+builder.Services.AddTransient<IImplementerStorage, ImplementerStorage>();
 
 builder.Services.AddTransient<IOrderLogic, OrderLogic>();
 builder.Services.AddTransient<IClientLogic, ClientLogic>();
 builder.Services.AddTransient<IPastryLogic, PastryLogic>();
+builder.Services.AddTransient<IImplementerLogic, ImplementerLogic>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

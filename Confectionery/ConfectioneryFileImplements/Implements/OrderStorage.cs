@@ -27,9 +27,16 @@ namespace ConfectioneryFileImplement.Implements
 
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue || !model.DateFrom.HasValue || !model.DateTo.HasValue)
+            if (!model.Id.HasValue || !model.DateFrom.HasValue || !model.DateTo.HasValue || !model.OrderStatus.HasValue)
             {
                 return new();
+            }
+            if (model.OrderStatus.HasValue)
+            {
+                return source.Orders
+                .Where(x => x.ImplementerId == model.ImplementerId)
+                .Select(x => AccessPastryStorage(x.GetViewModel))
+                .ToList();
             }
             if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
             {
@@ -49,13 +56,23 @@ namespace ConfectioneryFileImplement.Implements
 
         public OrderViewModel? GetElement(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.ImplementerId.HasValue && !model.OrderStatus.HasValue)
             {
                 return null;
             }
-            return AccessPastryStorage(source.Orders
-            .FirstOrDefault(x => model.Id.HasValue && x.Id == model.Id)
-            ?.GetViewModel);
+            if (!model.Id.HasValue)
+            {
+                return AccessPastryStorage(source.Orders
+                .FirstOrDefault(x => model.ImplementerId.HasValue && model.OrderStatus.HasValue
+                && x.ImplementerId == model.ImplementerId && x.Status == model.OrderStatus)
+                ?.GetViewModel);
+            }
+            else
+            {
+                return AccessPastryStorage(source.Orders
+                .FirstOrDefault(x => model.Id.HasValue && x.Id == model.Id)
+                ?.GetViewModel);
+            }
         }
 
         public OrderViewModel? Insert(OrderBindingModel model)

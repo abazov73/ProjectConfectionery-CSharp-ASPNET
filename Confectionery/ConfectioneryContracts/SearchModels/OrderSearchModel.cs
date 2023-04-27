@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConfectioneryDataModels.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,7 @@ namespace ConfectioneryContracts.SearchModels
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
         public int? ClientId { get; set; }
+        public int? ImplementerId { get; set; }
+        public OrderStatus? OrderStatus { get; set; }
     }
 }

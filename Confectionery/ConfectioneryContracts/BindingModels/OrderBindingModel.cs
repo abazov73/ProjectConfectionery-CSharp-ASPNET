@@ -18,5 +18,6 @@ namespace ConfectioneryContracts.BindingModels
         public OrderStatus Status { get; set; } = OrderStatus.Неизвестен;
         public DateTime DateCreate { get; set; } = DateTime.Now;
         public DateTime? DateImplement { get; set; }
+        public int? ImplementerId { get; set; }
     }
 }

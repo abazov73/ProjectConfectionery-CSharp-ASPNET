@@ -4,6 +4,7 @@ using ConfectioneryDataBaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfectioneryDataBaseImplement.Migrations
 {
     [DbContext(typeof(ConfectioneryDatabase))]
-    partial class ConfectioneryDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20230427171040_AddImplementer")]
+    partial class AddImplementer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

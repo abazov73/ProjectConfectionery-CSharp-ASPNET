@@ -16,6 +16,7 @@ namespace ConfectioneryDataModels.Models
         OrderStatus Status { get; }
         DateTime DateCreate { get; }
         DateTime? DateImplement { get; }
+        int? ImplementerId { get; }
 
     }
 }

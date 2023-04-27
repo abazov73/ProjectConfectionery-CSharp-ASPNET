@@ -17,20 +17,28 @@ namespace ConfectioneryDataBaseImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             using var context = new ConfectioneryDatabase();
-            return context.Orders.Include(x => x.Client)
+            return context.Orders.Include(x => x.Client).Include(x => x.Implementer)
             .Select(x => AccessPastryStorage(x.GetViewModel, context))
             .ToList();
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue && !model.ClientId.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue && !model.ClientId.HasValue && !model.OrderStatus.HasValue)
             {
                 return new();
+            }
+            if (model.OrderStatus.HasValue)
+            {
+                using var context = new ConfectioneryDatabase();
+                return context.Orders.Include(x => x.Client).Include(x => x.Implementer)
+                .Where(x => x.Status == model.OrderStatus)
+                .Select(x => AccessPastryStorage(x.GetViewModel, context))
+                .ToList();
             }
             if (model.ClientId.HasValue)
             {
                 using var context = new ConfectioneryDatabase();
-                return context.Orders.Include(x => x.Client)
+                return context.Orders.Include(x => x.Client).Include(x => x.Implementer)
                 .Where(x => x.ClientId == model.ClientId)
                 .Select(x => AccessPastryStorage(x.GetViewModel, context))
                 .ToList();
@@ -38,7 +46,7 @@ namespace ConfectioneryDataBaseImplement.Implements
             else if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
             {
                 using var context = new ConfectioneryDatabase();
-                return context.Orders.Include(x => x.Client)
+                return context.Orders.Include(x => x.Client).Include(x => x.Implementer)
                 .Where(x => x.Id == model.Id)
                 .Select(x => AccessPastryStorage(x.GetViewModel, context))
                 .ToList();
@@ -46,7 +54,7 @@ namespace ConfectioneryDataBaseImplement.Implements
             else
             {
                 using var context = new ConfectioneryDatabase();
-                return context.Orders.Include(x => x.Client)
+                return context.Orders.Include(x => x.Client).Include(x => x.Implementer)
                 .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
                 .Select(x => AccessPastryStorage(x.GetViewModel, context))
                 .ToList();
@@ -54,14 +62,24 @@ namespace ConfectioneryDataBaseImplement.Implements
         }
         public OrderViewModel? GetElement(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.ImplementerId.HasValue && !model.OrderStatus.HasValue)
             {
                 return new();
             }
             using var context = new ConfectioneryDatabase();
-            return AccessPastryStorage(context.Orders.Include(x => x.Client)
-            .FirstOrDefault(x => model.Id.HasValue && x.Id == model.Id)
-            ?.GetViewModel, context);
+            if (!model.Id.HasValue)
+            {
+                return AccessPastryStorage(context.Orders.Include(x => x.Client).Include(x => x.Implementer)
+                .FirstOrDefault(x => model.ImplementerId.HasValue && model.OrderStatus.HasValue 
+                                && x.Status == model.OrderStatus && x.ImplementerId == model.ImplementerId)
+                ?.GetViewModel, context);
+            }
+            else
+            {
+                return AccessPastryStorage(context.Orders.Include(x => x.Client).Include(x => x.Implementer)
+                .FirstOrDefault(x => x.Id == model.Id)
+                ?.GetViewModel, context);
+            }
         }
         public OrderViewModel? Insert(OrderBindingModel model)
         {
@@ -83,7 +101,7 @@ namespace ConfectioneryDataBaseImplement.Implements
             {
                 return null;
             }
-            order.Update(model);
+            order.Update(context, model);
             context.SaveChanges();
             return AccessPastryStorage(order.GetViewModel, context);
         }

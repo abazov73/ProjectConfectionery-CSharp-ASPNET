@@ -32,11 +32,21 @@ namespace ConfectioneryListImplement.Implements
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
             var result = new List<OrderViewModel>();
-            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue && !model.DateTo.HasValue && !model.OrderStatus.HasValue)
             {
                 return result;
             }
-            if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
+            if (model.ImplementerId.HasValue && model.OrderStatus.HasValue)
+            {
+                foreach (var order in _source.Orders)
+                {
+                    if (order.Status == model.OrderStatus)
+                    {
+                        result.Add(AccessPastryStorage(order.GetViewModel));
+                    }
+                }
+            }
+            else if (!model.DateFrom.HasValue || !model.DateTo.HasValue)
             {
                 foreach (var order in _source.Orders)
                 {
@@ -61,15 +71,29 @@ namespace ConfectioneryListImplement.Implements
 
         public OrderViewModel? GetElement(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.ImplementerId.HasValue && !model.OrderStatus.HasValue)
             {
                 return null;
             }
-            foreach (var order in _source.Orders)
+            if (!model.Id.HasValue)
             {
-                if (model.Id.HasValue && order.Id == model.Id)
+                foreach (var order in _source.Orders)
                 {
-                    return AccessPastryStorage(order.GetViewModel);
+                    if (model.ImplementerId.HasValue && model.OrderStatus.HasValue 
+                        && order.ImplementerId == model.ImplementerId && order.Status == model.OrderStatus)
+                    {
+                        return AccessPastryStorage(order.GetViewModel);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var order in _source.Orders)
+                {
+                    if (model.Id.HasValue && order.Id == model.Id)
+                    {
+                        return AccessPastryStorage(order.GetViewModel);
+                    }
                 }
             }
             return null;

@@ -19,6 +19,8 @@ namespace ConfectioneryDataBaseImplement.Models
         [Required]
         public int ClientId { get; set; }
         public virtual Client Client { get; set; } = new();
+        public int? ImplementerId { get; set; }
+        public virtual Implementer? Implementer { get; set; } = new();
         [Required]
         public int Count { get; private set; }
         [Required]
@@ -44,16 +46,20 @@ namespace ConfectioneryDataBaseImplement.Models
                 Sum = model.Sum,
                 Status = model.Status,
                 DateCreate = model.DateCreate,
-                DateImplement = model.DateImplement
+                DateImplement = model.DateImplement,
+                ImplementerId = model.ImplementerId,
+                Implementer = model.ImplementerId.HasValue ? context.Implementers.First(x => x.Id == model.ImplementerId) : null,
             };
         }
-        public void Update(OrderBindingModel? model)
+        public void Update(ConfectioneryDatabase context, OrderBindingModel? model)
         {
             if (model == null)
             {
                 return;
             }
             Status = model.Status;
+            if (model.ImplementerId.HasValue) ImplementerId = model.ImplementerId;
+            if (model.ImplementerId.HasValue) Implementer = context.Implementers.First(x => x.Id == model.ImplementerId);
             if (model.DateImplement.HasValue) DateImplement = model.DateImplement;
         }
         public OrderViewModel GetViewModel => new()
@@ -66,7 +72,9 @@ namespace ConfectioneryDataBaseImplement.Models
             Sum = Sum,
             Status = Status,
             DateCreate = DateCreate,
-            DateImplement = DateImplement
+            DateImplement = DateImplement,
+            ImplementerId = ImplementerId,
+            ImplementerFIO = Implementer?.ImplementerFIO
         };
     }
 }
