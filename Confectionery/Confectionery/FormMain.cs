@@ -49,6 +49,7 @@ namespace Confectionery
                     dataGridView.Columns["ClientFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     dataGridView.Columns["ImplementerFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     dataGridView.Columns["ClientId"].Visible = false;
+                    dataGridView.Columns["ClientEmail"].Visible = false;
                     dataGridView.Columns["ImplementerId"].Visible = false;
                 }
             }
@@ -212,6 +213,15 @@ namespace Confectionery
         {
             _workProcess.DoWork((Program.ServiceProvider?.GetService(typeof(IImplementerLogic)) as IImplementerLogic)!, _orderLogic);
             MessageBox.Show("Процесс обработки запущен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void письмаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormMails));
+            if (service is FormMails form)
+            {
+                form.ShowDialog();
+            }
         }
     }
 }

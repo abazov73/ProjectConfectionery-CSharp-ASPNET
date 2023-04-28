@@ -1,4 +1,5 @@
-﻿using ConfectioneryContracts.BindingModels;
+﻿using ConfectioneryBusinessLogic.MailWorker;
+using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using ConfectioneryContracts.SearchModels;
 using ConfectioneryContracts.StoragesContracts;
@@ -17,12 +18,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
+        private readonly AbstractMailWorker _mailWorker;
         static readonly object _lock = new object();
 
-        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
+        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage, AbstractMailWorker mailWorker)
         {
             _logger = logger;
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
         }
 
         public bool CreateOrder(OrderBindingModel model)
@@ -30,11 +33,19 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             CheckModel(model);
             if (model.Status != OrderStatus.Неизвестен) return false;
             model.Status = OrderStatus.Принят;
-            if (_orderStorage.Insert(model) == null)
+            var order = _orderStorage.Insert(model);
+            if (order == null)
             {
                 _logger.LogWarning("Insert operation failed");
                 return false;
             }
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel()
+            {
+                MailAddress = order.ClientEmail,
+                Subject = "Создан заказ №" + order.Id,
+                Text = $"Создан заказ №{order.Id} от {order.DateCreate} на кондитерское изделие {order.PastryName} в количестве {order.Count} шт. Сумма заказа: {order.Sum}."
+
+            });
             return true;
         }
 
@@ -56,7 +67,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Заказ должен быть переведен в статус готовности перед выдачей!");
             }
             model.Status = OrderStatus.Выдан;
-            _orderStorage.Update(model);
+            var order = _orderStorage.Update(model);
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel()
+            {
+                MailAddress = order.ClientEmail,
+                Subject = $"Заказ №{order.Id}. Статус изменен на Выдан",
+                Text = $"Выдан заказ №{order.Id} от {order.DateCreate} на кондитерское изделие {order.PastryName} в количестве {order.Count} шт. Сумма заказа: {order.Sum}."
+
+            });
             return true;
         }
 
@@ -79,7 +97,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             }
             model.Status = OrderStatus.Готов;
             model.DateImplement = DateTime.Now;
-            _orderStorage.Update(model);
+            var order = _orderStorage.Update(model);
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel()
+            {
+                MailAddress = order.ClientEmail,
+                Subject = $"Заказ №{order.Id}. Статус изменен на Готов",
+                Text = $"Готов заказ №{order.Id} от {order.DateCreate} на кондитерское изделие {order.PastryName} в количестве {order.Count} шт. Сумма заказа: {order.Sum}."
+
+            });
             return true;
         }
 
@@ -133,7 +158,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     throw new InvalidOperationException("Заказ должен быть переведен в статус принятого перед его выполнением!");
                 }
                 model.Status = OrderStatus.Выполняется;
-                _orderStorage.Update(model);
+                var order = _orderStorage.Update(model);
+                _mailWorker.MailSendAsync(new MailSendInfoBindingModel()
+                {
+                    MailAddress = order.ClientEmail,
+                    Subject = $"Заказ №{order.Id}. Статус изменен на Выполняется",
+                    Text = $"Выполняется заказ №{order.Id} от {order.DateCreate} на кондитерское изделие {order.PastryName} в количестве {order.Count} шт. Сумма заказа: {order.Sum}."
+
+                });
                 return true;
             }
         }

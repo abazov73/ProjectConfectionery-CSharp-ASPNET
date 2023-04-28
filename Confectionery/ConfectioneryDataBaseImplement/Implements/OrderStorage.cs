@@ -96,7 +96,7 @@ namespace ConfectioneryDataBaseImplement.Implements
         public OrderViewModel? Update(OrderBindingModel model)
         {
             using var context = new ConfectioneryDatabase();
-            var order = context.Orders.FirstOrDefault(x => x.Id == model.Id);
+            var order = context.Orders.Include(x => x.Client).FirstOrDefault(x => x.Id == model.Id);
             if (order == null)
             {
                 return null;

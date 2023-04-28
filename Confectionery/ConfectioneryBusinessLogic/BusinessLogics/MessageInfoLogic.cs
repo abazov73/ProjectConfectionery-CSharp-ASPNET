@@ -16,11 +16,13 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IMessageInfoStorage _messageStorage;
+        private readonly IClientLogic _clientLogic;
 
-        public MessageInfoLogic(ILogger logger, IMessageInfoStorage logic)
+        public MessageInfoLogic(ILogger<MessageInfoLogic> logger, IMessageInfoStorage logic, IClientLogic clientLogic)
         {
             _logger = logger;
             _messageStorage = logic;
+            _clientLogic = clientLogic;
         }
 
         public List<MessageInfoViewModel>? ReadList(MessageInfoSearchModel? model)
@@ -39,6 +41,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
         public bool Create(MessageInfoBindingModel model)
         {
             CheckModel(model);
+            model.ClientId = _clientLogic.ReadElement(new ClientSearchModel() { Email = model.SenderName })?.Id;
             if (_messageStorage.Insert(model) == null)
             {
                 _logger.LogWarning("Insert operation failed");

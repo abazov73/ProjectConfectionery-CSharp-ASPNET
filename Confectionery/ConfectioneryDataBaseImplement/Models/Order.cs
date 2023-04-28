@@ -68,6 +68,7 @@ namespace ConfectioneryDataBaseImplement.Models
             PastryId = PastryId,
             ClientId = ClientId,
             ClientFIO = Client.ClientFIO,
+            ClientEmail = Client.Email,
             Count = Count,
             Sum = Sum,
             Status = Status,

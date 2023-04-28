@@ -13,11 +13,13 @@ namespace ConfectioneryRestApi.Controllers
         private readonly ILogger _logger;
 
         private readonly IClientLogic _logic;
+        private readonly IMessageInfoLogic _mailLogic;
 
-        public ClientController(IClientLogic logic, ILogger<ClientController> logger)
+        public ClientController(IClientLogic logic, ILogger<ClientController> logger, IMessageInfoLogic mailLogic)
         {
             _logger = logger;
             _logic = logic;
+            _mailLogic = mailLogic;
         }
 
         [HttpGet]
@@ -62,6 +64,22 @@ namespace ConfectioneryRestApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка обновления данных");
+                throw;
+            }
+        }
+        [HttpGet]
+        public List<MessageInfoViewModel>? GetMessages(int clientId)
+        {
+            try
+            {
+                return _mailLogic.ReadList(new MessageInfoSearchModel
+                {
+                    ClientId = clientId
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка получения писем клиента");
                 throw;
             }
         }

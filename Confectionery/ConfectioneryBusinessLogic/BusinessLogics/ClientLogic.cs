@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ConfectioneryBusinessLogic.BusinessLogics
@@ -16,6 +17,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IClientStorage _clientStorage;
+        private Regex validateEmailRegex = new Regex("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
+        private Regex validatePasswordRegex = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).(?=.*?[#?!@$%^&*-]).{10,50}$");
 
         public ClientLogic(ILogger<ClientLogic> logger, IClientStorage clientStorage)
         {
@@ -107,6 +110,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             if (string.IsNullOrEmpty(model.Email))
             {
                 throw new ArgumentNullException("Нет электронной почты клиента", nameof(model.Email));
+            }
+            if (!validateEmailRegex.IsMatch(model.Email))
+            {
+                throw new InvalidOperationException("Почта введена некорректно!");
+            }
+            if (!validatePasswordRegex.IsMatch(model.Password))
+            {
+                throw new InvalidOperationException("Пароль не удовлетворяет требованиям");
             }
             _logger.LogInformation("Client. ClientFIO:{ClientFIO}. Password:{Password}. Email:{Email}. Id:{Id}", model.ClientFIO, model.Password, model.Email, model.Id);
             var element = _clientStorage.GetElement(new ClientSearchModel

@@ -22,6 +22,7 @@ namespace ConfectioneryContracts.ViewModels
         public int ClientId { get; set; }
         [DisplayName("ФИО клиента")]
         public string ClientFIO { get; set; } = string.Empty;
+        public string ClientEmail { get; set; } = string.Empty;
         [DisplayName("Количество")]
         public int Count { get; set; }
         [DisplayName("Сумма")]
