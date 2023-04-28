@@ -16,6 +16,7 @@ namespace ConfectioneryListImplement
         public List<Pastry> Pastries { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> MessageInfos { get; set; }
         private DataListSingleton()
         {
             Ingredients = new List<Ingredient>();
@@ -23,6 +24,7 @@ namespace ConfectioneryListImplement
             Pastries = new List<Pastry>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            MessageInfos = new List<MessageInfo>();
         }
         public static DataListSingleton GetInstance()
         {
