@@ -170,5 +170,14 @@ namespace Confectionery
                 form.ShowDialog();
             }
         }
+
+        private void списаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormSell));
+            if (service is FormSell form)
+            {
+                form.ShowDialog();
+            }
+        }
     }
 }

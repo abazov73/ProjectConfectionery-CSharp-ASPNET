@@ -53,6 +53,7 @@ namespace Confectionery
             services.AddTransient<FormShop>();
             services.AddTransient<FormShops>();
             services.AddTransient<FormDelivery>();
+            services.AddTransient<FormSell>();
         }
     }
 }

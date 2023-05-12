@@ -18,5 +18,6 @@ namespace ConfectioneryContracts.BusinessLogicsContracts
         bool Update(ShopBindingModel model);
         bool Delete(ShopBindingModel model);
         bool DeliverPastryToShop(ShopBindingModel shopModel, IPastryModel pastryModel, int count);
+        bool Sell(int pastryId, int count);
     }
 }

@@ -150,8 +150,8 @@ namespace ConfectioneryFileImplement.Implements
                 }
                 else
                 {
-                    count = 0;
                     shop.Pastries[pastryId] -= count;
+                    count = 0;
                     shop.setShopPastriesNull();
                 }
                 if (count == 0)

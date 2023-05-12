@@ -161,5 +161,10 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             });
             return true;
         }
+
+        public bool Sell(int pastryId, int count)
+        {
+            return _shopStorage.Sell(pastryId, count);
+        }
     }
 }
