@@ -6,19 +6,25 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConfectioneryDataBaseImplement.Models
 {
+    [DataContract]
     public class Pastry : IPastryModel
     {
+        [DataMember]
         public int Id { get; set; }
+        [DataMember]
         [Required]
         public string PastryName { get; set; } = string.Empty;
+        [DataMember]
         [Required]
         public double Price { get; set; }
         private Dictionary<int, (IIngredientModel, int)>? _pastryIngredients = null;
+        [DataMember]
         [NotMapped]
         public Dictionary<int, (IIngredientModel, int)> PastryIngredients
         {

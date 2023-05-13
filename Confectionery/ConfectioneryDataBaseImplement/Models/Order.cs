@@ -6,29 +6,40 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConfectioneryDataBaseImplement.Models
 {
+    [DataContract]
     public class Order : IOrderModel
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         [Required]
         public int PastryId { get; private set; }
+        [DataMember]
         [Required]
         public int ClientId { get; set; }
         public virtual Client Client { get; set; } = new();
+        [DataMember]
         public int? ImplementerId { get; set; }
         public virtual Implementer? Implementer { get; set; } = new();
+        [DataMember]
         [Required]
         public int Count { get; private set; }
+        [DataMember]
         [Required]
         public double Sum { get; private set; }
+        [DataMember]
         [Required]
         public OrderStatus Status { get; private set; }
+        [DataMember]
         [Required]
         public DateTime DateCreate { get; private set; }
+        [DataMember]
         public DateTime? DateImplement { get; private set; }
         public static Order? Create(ConfectioneryDatabase context, OrderBindingModel? model)
         {

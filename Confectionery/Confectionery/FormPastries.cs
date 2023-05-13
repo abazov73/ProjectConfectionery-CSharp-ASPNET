@@ -1,5 +1,6 @@
 ﻿using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
+using ConfectioneryContracts.DI;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,14 +35,7 @@ namespace Confectionery
         {
             try
             {
-                var list = _logic.ReadList(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns["Id"].Visible = false;
-                    dataGridView.Columns["PastryIngredients"].Visible = false;
-                    dataGridView.Columns["PastryName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.FillAndConfigGrid(_logic.ReadList(null));
                 _logger.LogInformation("Загрузка изделий");
             }
             catch (Exception ex)
@@ -53,7 +47,7 @@ namespace Confectionery
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormPastry));
+            var service = DependencyManager.Instance.Resolve<FormPastry>();
             if (service is FormPastry form)
             {
                 if (form.ShowDialog() == DialogResult.OK)
@@ -67,7 +61,7 @@ namespace Confectionery
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var service = Program.ServiceProvider?.GetService(typeof(FormPastry));
+                var service = DependencyManager.Instance.Resolve<FormPastry>();
                 if (service is FormPastry form)
                 {
                     form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["Id"].Value);

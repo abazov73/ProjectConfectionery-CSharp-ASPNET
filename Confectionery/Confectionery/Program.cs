@@ -9,13 +9,12 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using ConfectioneryBusinessLogic.MailWorker;
 using ConfectioneryContracts.BindingModels;
+using ConfectioneryContracts.DI;
 
 namespace Confectionery
 {
     internal static class Program
     {
-        private static ServiceProvider? _serviceProvider;
-        public static ServiceProvider? ServiceProvider => _serviceProvider;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -26,12 +25,10 @@ namespace Confectionery
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            _serviceProvider = services.BuildServiceProvider();
+            InitDependency();
             try
             {
-                var mailSender = _serviceProvider.GetService<AbstractMailWorker>();
+                var mailSender = DependencyManager.Instance.Resolve<AbstractMailWorker>();
                 mailSender?.MailConfig(new MailConfigBindingModel
                 {
                     MailLogin = System.Configuration.ConfigurationManager.AppSettings["MailLogin"] ?? string.Empty,
@@ -47,54 +44,51 @@ namespace Confectionery
             }
             catch (Exception ex)
             {
-                var logger = _serviceProvider.GetService<ILogger>();
+                var logger = DependencyManager.Instance.Resolve<ILogger>();
                 logger?.LogError(ex, "Ошибка работы с почтой");
             }
-            Application.Run(_serviceProvider.GetRequiredService<FormMain>());
-
-            
+            Application.Run(DependencyManager.Instance.Resolve<FormMain>());
         }
 
-        private static void ConfigureServices(ServiceCollection services)
+        private static void InitDependency()
         {
-            services.AddLogging(option =>
+            DependencyManager.InitDependency();
+
+            DependencyManager.Instance.AddLogging(option =>
             {
                 option.SetMinimumLevel(LogLevel.Information);
                 option.AddNLog("nlog.config");
             });
-            services.AddTransient<IIngredientStorage, IngredientStorage>();
-            services.AddTransient<IOrderStorage, OrderStorage>();
-            services.AddTransient<IPastryStorage, PastryStorage>();
-            services.AddTransient<IClientStorage, ClientStorage>();
-            services.AddTransient<IImplementerStorage, ImplementerStorage>();
-            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
-            services.AddTransient<IIngredientLogic, IngredientLogic>();
-            services.AddTransient<IOrderLogic, OrderLogic>();
-            services.AddTransient<IPastryLogic, PastryLogic>();
-            services.AddTransient<IReportLogic, ReportLogic>();
-            services.AddTransient<IClientLogic, ClientLogic>();
-            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
-            services.AddTransient<IWorkProcess, WorkModeling>();
-            services.AddTransient<IImplementerLogic, ImplementerLogic>();
-            services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
-            services.AddTransient<AbstractSaveToWord, SaveToWord>();
-            services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
-            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
-            services.AddTransient<FormMain>();
-            services.AddTransient<FormIngredient>();
-            services.AddTransient<FormIngredients>();
-            services.AddTransient<FormCreateOrder>();
-            services.AddTransient<FormPastry>();
-            services.AddTransient<FormPastryIngredient>();
-            services.AddTransient<FormPastries>();
-            services.AddTransient<FormReportPastryIngredients>();
-            services.AddTransient<FormReportOrders>();
-            services.AddTransient<FormClients>();
-            services.AddTransient<FormImplementers>();
-            services.AddTransient<FormImplementer>();
-            services.AddTransient<FormMails>();
-        }
 
-        private static void MailCheck(object obj) => ServiceProvider?.GetService<AbstractMailWorker>()?.MailCheck();
+            DependencyManager.Instance.RegisterType<IIngredientLogic, IngredientLogic>();
+            DependencyManager.Instance.RegisterType<IOrderLogic, OrderLogic>();
+            DependencyManager.Instance.RegisterType<IPastryLogic, PastryLogic>();
+            DependencyManager.Instance.RegisterType<IReportLogic, ReportLogic>();
+            DependencyManager.Instance.RegisterType<IClientLogic, ClientLogic>();
+            DependencyManager.Instance.RegisterType<IMessageInfoLogic, MessageInfoLogic>();
+            DependencyManager.Instance.RegisterType<IWorkProcess, WorkModeling>();
+            DependencyManager.Instance.RegisterType<IImplementerLogic, ImplementerLogic>();
+            DependencyManager.Instance.RegisterType<IBackUpLogic, BackUpLogic>();
+
+            DependencyManager.Instance.RegisterType<AbstractSaveToExcel, SaveToExcel>();
+            DependencyManager.Instance.RegisterType<AbstractSaveToWord, SaveToWord>();
+            DependencyManager.Instance.RegisterType<AbstractSaveToPdf, SaveToPdf>();
+            DependencyManager.Instance.RegisterType<AbstractMailWorker, MailKitWorker>(true);
+
+            DependencyManager.Instance.RegisterType<FormMain>();
+            DependencyManager.Instance.RegisterType<FormIngredient>();
+            DependencyManager.Instance.RegisterType<FormIngredients>();
+            DependencyManager.Instance.RegisterType<FormCreateOrder>();
+            DependencyManager.Instance.RegisterType<FormPastry>();
+            DependencyManager.Instance.RegisterType<FormPastryIngredient>();
+            DependencyManager.Instance.RegisterType<FormPastries>();
+            DependencyManager.Instance.RegisterType<FormReportPastryIngredients>();
+            DependencyManager.Instance.RegisterType<FormReportOrders>();
+            DependencyManager.Instance.RegisterType<FormClients>();
+            DependencyManager.Instance.RegisterType<FormImplementers>();
+            DependencyManager.Instance.RegisterType<FormImplementer>();
+            DependencyManager.Instance.RegisterType<FormMails>();
+        }
+        private static void MailCheck(object obj) => DependencyManager.Instance.Resolve<AbstractMailWorker>()?.MailCheck();
     }
 }

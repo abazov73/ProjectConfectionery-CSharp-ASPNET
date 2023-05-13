@@ -6,18 +6,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConfectioneryDataBaseImplement.Models
 {
+    [DataContract]
     public class Client : IClientModel
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         [Required]
         public string ClientFIO { get; private set; } = string.Empty;
+        [DataMember]
         [Required]
         public string Password { get; set; } = string.Empty;
+        [DataMember]
         [Required]
         public string Email { get; private set; } = string.Empty;
 

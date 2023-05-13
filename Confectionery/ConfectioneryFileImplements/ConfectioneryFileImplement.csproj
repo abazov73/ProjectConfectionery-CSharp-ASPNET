@@ -11,4 +11,8 @@
     <ProjectReference Include="..\ConfectioneryDataModels\ConfectioneryDataModels.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)ImplementationExtensions\*.dll&quot;" />
+  </Target>
+
 </Project>

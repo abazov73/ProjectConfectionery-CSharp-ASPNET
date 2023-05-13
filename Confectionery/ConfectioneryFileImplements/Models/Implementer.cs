@@ -5,21 +5,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
+    [DataContract]
     public class Implementer : IImplementerModel
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         public string ImplementerFIO { get; set; } = string.Empty;
-
+        [DataMember]
         public string Password { get; set; } = string.Empty;
-
+        [DataMember]
         public int WorkExperience { get; set; }
-
+        [DataMember]
         public int Qualification { get; set; }
 
         public static Implementer? Create(ImplementerBindingModel? model)

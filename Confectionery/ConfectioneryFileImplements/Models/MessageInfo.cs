@@ -4,19 +4,27 @@ using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
+    [DataContract]
     public class MessageInfo : IMessageInfoModel
     {
+        [DataMember]
         public string MessageId { get; set; } = string.Empty;
+        [DataMember]
         public int? ClientId { get; set; }
+        [DataMember]
         public string SenderName { get; set; } = string.Empty;
+        [DataMember]
         public DateTime DateDelivery { get; set; }
+        [DataMember]
         public string Subject { get; set; } = string.Empty;
+        [DataMember]
         public string Body { get; set; } = string.Empty;
 
         public static MessageInfo? Create(MessageInfoBindingModel model)

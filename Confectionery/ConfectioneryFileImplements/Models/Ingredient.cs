@@ -5,16 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
+    [DataContract]
     public class Ingredient : IIngredientModel
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         public string IngredientName { get; private set; } = string.Empty;
+        [DataMember]
         public double Cost { get; set; }
         public static Ingredient? Create(IngredientBindingModel model)
         {

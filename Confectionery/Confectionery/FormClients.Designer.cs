@@ -44,12 +44,12 @@
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 29;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(489, 449);
+            this.dataGridView.Size = new System.Drawing.Size(605, 449);
             this.dataGridView.TabIndex = 1;
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(529, 12);
+            this.buttonRefresh.Location = new System.Drawing.Point(613, 12);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(94, 29);
             this.buttonRefresh.TabIndex = 2;
@@ -61,7 +61,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 450);
+            this.ClientSize = new System.Drawing.Size(719, 450);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.dataGridView);
             this.Name = "FormClients";

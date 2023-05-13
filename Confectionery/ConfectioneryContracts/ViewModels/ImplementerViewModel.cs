@@ -1,4 +1,5 @@
-﻿using ConfectioneryDataModels.Models;
+﻿using ConfectioneryContracts.Attributes;
+using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,14 +11,15 @@ namespace ConfectioneryContracts.ViewModels
 {
     public class ImplementerViewModel : IImplementerModel
     {
+        [Column(visible:false)]
         public int Id { get; set; }
-        [DisplayName("ФИО")]
+        [Column(title:"ФИО", gridViewAutoSize:GridViewAutoSize.Fill, isUseAutoSize:true)]
         public string ImplementerFIO { get; set; } = String.Empty;
-        [DisplayName("Пароль")]
+        [Column(title:"Пароль", width:150)]
         public string Password { get; set; } = String.Empty;
-        [DisplayName("Опыт работы")]
+        [Column(title:"Опыт работы", width:120)]
         public int WorkExperience { get; set; }
-        [DisplayName("Квалификация")]
+        [Column(title:"Квалификация", width:120)]
         public int Qualification { get; set; }
     }
 }

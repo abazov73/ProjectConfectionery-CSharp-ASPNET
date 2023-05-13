@@ -4,17 +4,23 @@ using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
+    [DataContract]
     public class Pastry
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         public string PastryName { get; private set; } = string.Empty;
+        [DataMember]
         public double Price { get; private set; }
+        [DataMember]
         public Dictionary<int, int> Ingredients { get; private set; } = new();
         private Dictionary<int, (IIngredientModel, int)>? _pastryIngredients = null;
         public Dictionary<int, (IIngredientModel, int)> PastryIngredients

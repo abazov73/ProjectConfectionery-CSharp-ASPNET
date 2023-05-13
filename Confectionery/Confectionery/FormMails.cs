@@ -27,14 +27,7 @@ namespace Confectionery
         {
             try
             {
-                var list = _logic.ReadList(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns["MessageId"].Visible = false;
-                    dataGridView.Columns["ClientId"].Visible = false;
-                    dataGridView.Columns["Body"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.FillAndConfigGrid(_logic.ReadList(null));
                 _logger.LogInformation("Загрузка писем");
             }
             catch (Exception ex)

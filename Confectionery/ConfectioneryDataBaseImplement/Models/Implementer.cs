@@ -6,20 +6,27 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConfectioneryDataBaseImplement.Models
 {
+    [DataContract]
     public class Implementer : IImplementerModel
     {
+        [DataMember]
         public int Id { get; private set; }
+        [DataMember]
         [Required]
         public string ImplementerFIO { get; set; } = string.Empty;
+        [DataMember]
         [Required]
         public string Password { get; set; } = string.Empty;
+        [DataMember]
         [Required]
         public int WorkExperience { get; set; }
+        [DataMember]
         [Required]
         public int Qualification { get; set; }
         [ForeignKey("ImplementerId")]

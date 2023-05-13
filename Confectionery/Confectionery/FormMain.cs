@@ -1,6 +1,7 @@
 ﻿using ConfectioneryBusinessLogic.BusinessLogics;
 using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
+using ConfectioneryContracts.DI;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,16 @@ namespace Confectionery
         private readonly IOrderLogic _orderLogic;
         private readonly IReportLogic _reportLogic;
         private readonly IWorkProcess _workProcess;
+        private readonly IBackUpLogic _backUpLogic;
 
-        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic, IWorkProcess workProcess)
+        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic, IWorkProcess workProcess, IBackUpLogic backUpLogic)
         {
             InitializeComponent();
             _logger = logger;
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
             _workProcess = workProcess;
+            _backUpLogic = backUpLogic;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -40,18 +43,7 @@ namespace Confectionery
             _logger.LogInformation("Загрузка заказов");
             try
             {
-                var list = _orderLogic.ReadList(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns["PastryId"].Visible = false;
-                    dataGridView.Columns["PastryName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns["ClientFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns["ImplementerFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns["ClientId"].Visible = false;
-                    dataGridView.Columns["ClientEmail"].Visible = false;
-                    dataGridView.Columns["ImplementerId"].Visible = false;
-                }
+                dataGridView.FillAndConfigGrid(_orderLogic.ReadList(null));
             }
             catch (Exception ex)
             {
@@ -62,7 +54,7 @@ namespace Confectionery
 
         private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormIngredients));
+            var service = DependencyManager.Instance.Resolve<FormIngredients>();
             if (service is FormIngredients form)
             {
                 form.ShowDialog();
@@ -71,7 +63,7 @@ namespace Confectionery
 
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormPastries));
+            var service = DependencyManager.Instance.Resolve<FormPastries>();
             if (service is FormPastries form)
             {
                 form.ShowDialog();
@@ -80,7 +72,7 @@ namespace Confectionery
 
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormCreateOrder));
+            var service = DependencyManager.Instance.Resolve<FormCreateOrder>();
             if (service is FormCreateOrder form)
             {
                 form.ShowDialog();
@@ -175,7 +167,7 @@ namespace Confectionery
 
         private void IngredientPastriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormReportPastryIngredients));
+            var service = DependencyManager.Instance.Resolve<FormReportPastryIngredients>();
             if (service is FormReportPastryIngredients form)
             {
                 form.ShowDialog();
@@ -184,7 +176,7 @@ namespace Confectionery
 
         private void OrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormReportOrders));
+            var service = DependencyManager.Instance.Resolve<FormReportOrders>();
             if (service is FormReportOrders form)
             {
                 form.ShowDialog();
@@ -193,7 +185,7 @@ namespace Confectionery
 
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormClients));
+            var service = DependencyManager.Instance.Resolve<FormClients>();
             if (service is FormClients form)
             {
                 form.ShowDialog();
@@ -202,7 +194,7 @@ namespace Confectionery
 
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormImplementers));
+            var service = DependencyManager.Instance.Resolve<FormImplementers>();
             if (service is FormImplementers form)
             {
                 form.ShowDialog();
@@ -211,16 +203,36 @@ namespace Confectionery
 
         private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _workProcess.DoWork((Program.ServiceProvider?.GetService(typeof(IImplementerLogic)) as IImplementerLogic)!, _orderLogic);
+            _workProcess.DoWork(DependencyManager.Instance.Resolve<IImplementerLogic>(), _orderLogic);
             MessageBox.Show("Процесс обработки запущен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void письмаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormMails));
+            var service = DependencyManager.Instance.Resolve<FormMails>();
             if (service is FormMails form)
             {
                 form.ShowDialog();
+            }
+        }
+
+        private void создатьБекапToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_backUpLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel { FolderName = fbd.SelectedPath });
+                        MessageBox.Show("Бекап создан", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using ConfectioneryDataModels.Enums;
+﻿using ConfectioneryContracts.Attributes;
+using ConfectioneryDataModels.Enums;
 using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
@@ -11,27 +12,31 @@ namespace ConfectioneryContracts.ViewModels
 {
     public class OrderViewModel : IOrderModel
     {
-        [DisplayName("Номер")]
+        [Column(title:"Номер")]
         public int Id { get; set; }
+        [Column(visible:false)]
         public int PastryId { get; set; }
-        [DisplayName("Кондитерское изделие")]
+        [Column(title:"Кондитерское изделие", gridViewAutoSize:GridViewAutoSize.Fill, isUseAutoSize:true)]
         public string PastryName { get; set; } = string.Empty;
+        [Column(visible:false)]
         public int? ImplementerId { get; set; }
-        [DisplayName("Исполнитель")]
+        [Column(title:"Исполнитель", gridViewAutoSize: GridViewAutoSize.Fill, isUseAutoSize: true)]
         public string? ImplementerFIO { get; set; }
+        [Column(visible:false)]
         public int ClientId { get; set; }
-        [DisplayName("ФИО клиента")]
+        [Column(title:"ФИО клиента", gridViewAutoSize: GridViewAutoSize.Fill, isUseAutoSize: true)]
         public string ClientFIO { get; set; } = string.Empty;
+        [Column(visible:false)]
         public string ClientEmail { get; set; } = string.Empty;
-        [DisplayName("Количество")]
+        [Column(title:"Количество", width:100)]
         public int Count { get; set; }
-        [DisplayName("Сумма")]
+        [Column(title:"Сумма", width:100)]
         public double Sum { get; set; }
-        [DisplayName("Статус")]
+        [Column(title:"Статус", width:125)]
         public OrderStatus Status { get; set; } = OrderStatus.Неизвестен;
-        [DisplayName("Дата создания")]
+        [Column(title:"Дата создания", width: 120)]
         public DateTime DateCreate { get; set; } = DateTime.Now;
-        [DisplayName("Дата выполнения")]
+        [Column(title:"Дата выполнения", width: 120)]
         public DateTime? DateImplement { get; set; }
     }
 }

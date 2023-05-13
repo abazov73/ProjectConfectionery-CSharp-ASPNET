@@ -4,17 +4,23 @@ using ConfectioneryDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ConfectioneryFileImplement.Models
 {
+    [DataContract]
     public class Client : IClientModel
     {
+        [DataMember]
         public int Id { get; set; }
+        [DataMember]
         public string ClientFIO { get; set; } = string.Empty;
+        [DataMember]
         public string Password { get; set; } = string.Empty;
+        [DataMember]
         public string Email { get; set; } = string.Empty;
         public static Client? Create(ClientBindingModel? model)
         {

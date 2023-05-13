@@ -1,5 +1,6 @@
 ﻿using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
+using ConfectioneryContracts.DI;
 using ConfectioneryContracts.SearchModels;
 using ConfectioneryDataModels.Models;
 using Microsoft.Extensions.Logging;
@@ -79,7 +80,7 @@ namespace Confectionery
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormPastryIngredient));
+            var service = DependencyManager.Instance.Resolve<FormPastryIngredient>();
             if (service is FormPastryIngredient form)
             {
                 if (form.ShowDialog() == DialogResult.OK)
@@ -106,7 +107,7 @@ namespace Confectionery
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var service = Program.ServiceProvider?.GetService(typeof(FormPastryIngredient));
+                var service = DependencyManager.Instance.Resolve<FormPastryIngredient>();
                 if (service is FormPastryIngredient form)
                 {
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
