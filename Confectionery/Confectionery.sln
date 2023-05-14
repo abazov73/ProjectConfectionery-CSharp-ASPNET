@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryBusinessLogic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{85992074-656D-4F79-AB23-60DE4F9ABF30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryFileImplement", "ConfectioneryFileImplements\ConfectioneryFileImplement.csproj", "{48A8592F-EF58-4FC4-9C9E-B401836FF21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryFileImplement", "ConfectioneryFileImplements\ConfectioneryFileImplement.csproj", "{48A8592F-EF58-4FC4-9C9E-B401836FF21E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryDataBaseImplement", "ConfectioneryDataBaseImplement\ConfectioneryDataBaseImplement.csproj", "{29FD1CED-C24D-40AD-9734-889C0B192A6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48A8592F-EF58-4FC4-9C9E-B401836FF21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29FD1CED-C24D-40AD-9734-889C0B192A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29FD1CED-C24D-40AD-9734-889C0B192A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29FD1CED-C24D-40AD-9734-889C0B192A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29FD1CED-C24D-40AD-9734-889C0B192A6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
