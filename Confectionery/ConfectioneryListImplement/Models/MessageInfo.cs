@@ -44,5 +44,7 @@ namespace ConfectioneryListImplement.Models
             Subject = Subject,
             DateDelivery = DateDelivery
         };
+
+        public int Id { get; set; }
     }
 }

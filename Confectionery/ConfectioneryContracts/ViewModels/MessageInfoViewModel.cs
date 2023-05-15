@@ -23,5 +23,7 @@ namespace ConfectioneryContracts.ViewModels
         public string Subject { get; set; } = string.Empty;
         [Column(title:"Текст", gridViewAutoSize:GridViewAutoSize.Fill, isUseAutoSize:true)]
         public string Body { get; set; } = string.Empty;
+
+        public int Id { get; set; }
     }
 }

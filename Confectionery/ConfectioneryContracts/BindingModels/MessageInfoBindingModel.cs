@@ -15,5 +15,7 @@ namespace ConfectioneryContracts.BindingModels
         public DateTime DateDelivery { get; set; }
         public string Subject { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
+
+        public int Id { get; set; }
     }
 }

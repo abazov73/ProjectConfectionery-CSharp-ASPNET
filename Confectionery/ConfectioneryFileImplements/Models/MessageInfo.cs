@@ -78,5 +78,7 @@ namespace ConfectioneryFileImplement.Models
         new XElement("Subject", Subject),
         new XElement("Body", Body),
         new XElement("DateDelivery", DateDelivery.ToString()));
+
+        public int Id { get; set; }
     }
 }

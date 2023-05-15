@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfectioneryDataModels.Models
 {
-    public interface IMessageInfoModel
+    public interface IMessageInfoModel : IId
     {
         string MessageId { get; }
         int? ClientId { get; }
