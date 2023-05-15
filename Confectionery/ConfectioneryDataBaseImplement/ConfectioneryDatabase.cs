@@ -15,7 +15,7 @@ namespace ConfectioneryDataBaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=ConfectioneryDatabaseFull;Integrated Security=True;MultipleActiveResultSets=True;;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=ConfectioneryDatabaseHardLab;Integrated Security=True;MultipleActiveResultSets=True;;TrustServerCertificate=True");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -23,5 +23,7 @@ namespace ConfectioneryDataBaseImplement
         public virtual DbSet<Pastry> Pastrys { set; get; }
         public virtual DbSet<PastryIngredient> PastryIngredients { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Shop> Shops { set; get; }
+        public virtual DbSet<ShopPastry> ShopPastries { set; get; }
     }
 }
