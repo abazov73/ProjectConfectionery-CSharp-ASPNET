@@ -115,15 +115,14 @@ namespace ConfectioneryFileImplement.Implements
                     }
                     else
                     {
-                        int dif = count - freeShopSpace;
                         count -= freeShopSpace;
                         if (shop.Pastries.TryGetValue(pastryId, out var pastryCount))
                         {
-                            shop.Pastries[pastryId] = pastryCount + count;
+                            shop.Pastries[pastryId] = pastryCount + freeShopSpace;
                         }
                         else
                         {
-                            shop.Pastries.Add(pastryId, count);
+                            shop.Pastries.Add(pastryId, freeShopSpace);
                         }
                         shop.setShopPastriesNull();
                     }

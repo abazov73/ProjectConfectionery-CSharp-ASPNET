@@ -52,7 +52,7 @@ namespace Confectionery
                 bool operationResult = _logicS.Sell(Convert.ToInt32(comboBoxPastry.SelectedValue), count);
                 if (!operationResult)
                 {
-                    throw new Exception("Ошибка при создании поставки. Дополнительная информация в логах.");
+                    throw new Exception("Ошибка при создании списания. Дополнительная информация в логах.");
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
