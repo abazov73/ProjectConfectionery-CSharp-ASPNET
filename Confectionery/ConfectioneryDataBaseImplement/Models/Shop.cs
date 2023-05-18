@@ -67,8 +67,9 @@ namespace ConfectioneryDataBaseImplement.Models
 
         public void UpdatePastries(ConfectioneryDatabase context, ShopBindingModel model)
         {
+            var list = context.ShopPastries.ToList();
             var shopPastries = context.ShopPastries.Where(rec => rec.ShopId == model.Id).ToList();
-            if (shopPastries != null && shopPastries.Count > 0)
+            if (shopPastries != null)
             {
                 // удалили те, которых нет в модели
                 context.ShopPastries.RemoveRange(shopPastries.Where(rec => !model.ShopPastries.ContainsKey(rec.PastryId)));

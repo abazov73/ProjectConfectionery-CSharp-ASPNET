@@ -4,6 +4,7 @@ using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.ViewModels;
 using ConfectioneryDataBaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,8 +127,7 @@ namespace ConfectioneryDataBaseImplement.Implements
                             shop.ShopPastries.Add(pastryId, (pastry, count));
                         }
                         shop.RemapPastries(context);
-                        transaction.Commit();
-                        return true;
+                        count = 0;
                     }
                     else
                     {
@@ -136,17 +136,22 @@ namespace ConfectioneryDataBaseImplement.Implements
                         if (shop.ShopPastries.TryGetValue(pastryId, out var pastryCount))
                         {
                             var shopPastry = shop.ShopPastries[pastryId];
-                            shopPastry.Item2 = pastryCount.Item2 + count;
+                            shopPastry.Item2 = pastryCount.Item2 + freeShopSpace;
                             shop.ShopPastries[pastryId] = shopPastry;
                         }
                         else
                         {
                             Pastry pastry = context.Pastrys.First(x => x.Id == pastryId);
-                            shop.ShopPastries.Add(pastryId, (pastry, count));
+                            shop.ShopPastries.Add(pastryId, (pastry, freeShopSpace));
                         }
                         shop.RemapPastries(context);
                     }
                 }
+            }
+            if (count == 0)
+            {
+                transaction.Commit();
+                return true;
             }
             transaction.Rollback();
             return false;
