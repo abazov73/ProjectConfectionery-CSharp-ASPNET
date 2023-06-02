@@ -108,7 +108,7 @@ namespace ConfectioneryDataBaseImplement.Implements
         {
             using ConfectioneryDatabase context = new ConfectioneryDatabase();
             var transaction = context.Database.BeginTransaction();
-            foreach (Shop shop in context.Shops)
+            foreach (Shop shop in context.Shops.Include(x => x.Pastries).ThenInclude(x => x.Pastry))
             {
                 int freeShopSpace = shop.PastryCapacity - shop.ShopPastries.Select(y => y.Value.Item2).Sum();
                 if (freeShopSpace > 0)
@@ -161,7 +161,7 @@ namespace ConfectioneryDataBaseImplement.Implements
         {
             using ConfectioneryDatabase context = new ConfectioneryDatabase();
             var transaction = context.Database.BeginTransaction();
-            foreach (Shop shop in context.Shops)
+            foreach (Shop shop in context.Shops.Include(x => x.Pastries).ThenInclude(x => x.Pastry))
             {
                 int shopPastryCount = shop.ShopPastries.Select(x => x.Value).Where(x => x.Item1.Id == pastryId).Sum(x => x.Item2);
                 if (count - shopPastryCount >= 0)
@@ -177,11 +177,11 @@ namespace ConfectioneryDataBaseImplement.Implements
                     shop.ShopPastries[pastryId] = shopPastry;
                 }
                 shop.RemapPastries(context);
-                if (count == 0)
-                {
-                    transaction.Commit();
-                    return true;
-                }
+            }
+            if (count == 0)
+            {
+                transaction.Commit();
+                return true;
             }
             transaction.Rollback();
             return false;

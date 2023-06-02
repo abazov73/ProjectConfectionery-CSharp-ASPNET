@@ -69,30 +69,33 @@ namespace ConfectioneryDataBaseImplement.Models
         {
             var list = context.ShopPastries.ToList();
             var shopPastries = context.ShopPastries.Where(rec => rec.ShopId == model.Id).ToList();
-            if (shopPastries != null)
+            if (shopPastries != null && shopPastries.Count > 0)
             {
                 // удалили те, которых нет в модели
-                context.ShopPastries.RemoveRange(shopPastries.Where(rec => !model.ShopPastries.ContainsKey(rec.PastryId)));
+                context.ShopPastries.RemoveRange(shopPastries.Where((ShopPastry rec) => !model.ShopPastries.ContainsKey(rec.PastryId)));
                 context.SaveChanges();
+
+                shopPastries = context.ShopPastries.Where((ShopPastry rec) => rec.ShopId == model.Id).ToList();
                 // обновили количество у существующих записей
                 foreach (var updateIngredient in shopPastries)
                 {
                     updateIngredient.Count = model.ShopPastries[updateIngredient.PastryId].Item2;
                     model.ShopPastries.Remove(updateIngredient.PastryId);
                 }
-                var shop = context.Shops.First(x => x.Id == Id);
-                foreach (var sp in model.ShopPastries)
-                {
-                    context.ShopPastries.Add(new ShopPastry
-                    {
-                        Shop = shop,
-                        Pastry = context.Pastrys.First(x => x.Id == sp.Key),
-                        Count = sp.Value.Item2
-                    });
-                    context.SaveChanges();
-                }
-                _shopPastries = null;
+                context.SaveChanges();
             }
+            var shop = context.Shops.First(x => x.Id == Id);
+            foreach (var sp in model.ShopPastries)
+            {
+                context.ShopPastries.Add(new ShopPastry
+                {
+                    Shop = shop,
+                    Pastry = context.Pastrys.First(x => x.Id == sp.Key),
+                    Count = sp.Value.Item2
+                });
+                context.SaveChanges();
+            }
+            _shopPastries = null;
         }
 
         public ShopViewModel GetViewModel => new()
